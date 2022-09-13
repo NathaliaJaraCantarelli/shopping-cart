@@ -1,5 +1,3 @@
-// const { error } = require("cypress/types/jquery");
-
 const fetchProducts = async (product) => {
   try {
     const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
@@ -10,8 +8,6 @@ const fetchProducts = async (product) => {
     throw new Error('You must provide an url');
   }
 };
-
-// console.log(fetchProducts());
 
 if (typeof module !== 'undefined') {
   module.exports = {
