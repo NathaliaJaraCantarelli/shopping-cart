@@ -83,7 +83,7 @@ carrinhoComprasEspaço.addEventListener('click', (event) => {
     const posicao = frase.substring(frase.indexOf('PRICE') + 8, frase.length);
     const valor = parseFloat(posicao);
     totalPrecoNumber -= valor;
-    listaCarrinhoPreco.innerText = totalPrecoNumber;//.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' });
+    listaCarrinhoPreco.innerText = totalPrecoNumber; // .toLocaleString('pt-BR', { style: 'currency', currency: 'USD' }); 
     elemento.remove();
   }
 });
@@ -93,7 +93,7 @@ const criaElementoCarrinho = async (idSelecionado, listaCarrinho) => {
   listaCarrinho.appendChild(createCartItemElement(objetoRetorno));
   const novoPreco = parseFloat(objetoRetorno.price);
   totalPrecoNumber += novoPreco;
-  listaCarrinhoPreco.innerText = totalPrecoNumber;//.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' });
+  listaCarrinhoPreco.innerText = totalPrecoNumber; // .toLocaleString('pt-BR', { style: 'currency', currency: 'USD' });
 };
 
 const requisito4 = () => {
@@ -119,5 +119,6 @@ const requisito2 = async () => {
 window.onload = () => {
   requisito2();
   const valorInicial = 0;
-  listaCarrinhoPreco.innerText = valorInicial.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  listaCarrinhoPreco.innerText = valorInicial
+    .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
