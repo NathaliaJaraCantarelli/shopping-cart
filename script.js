@@ -54,7 +54,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+const getIdFromProductItem = (product) => product.querySelector('span.item_id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -68,17 +68,34 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
   return li;
 };
 
-const requisito2 = async () => {
-  const lista = document.getElementsByClassName('items')[0];
-  console.log(lista);
-  const retorno = await fetchProducts('computador');
-  retorno.results.forEach((element) => lista.appendChild(createProductItemElement(element)));
+const criaElementoCarrinho = async (idSelecionado, listaCarrinho) => {
+  const objetoRetorno = await fetchItem(idSelecionado);
+  listaCarrinho.appendChild(createCartItemElement(objetoRetorno));
 };
 
-requisito2();
+const requisito3 = () => {
+  const element = document.getElementsByClassName('item__add');
+  const listaCarrinho = document.getElementsByClassName('cart__items')[0];
+  for (let index = 0; index < element.length; index += 1) {
+    element[index].addEventListener('click', () => {
+      const pai = element[index].parentNode;
+      const idSelecionado = pai.children[0].innerText;
+      criaElementoCarrinho(idSelecionado, listaCarrinho);
+    });
+  }
+};
 
-window.onload = () => { };
+const requisito2 = async () => {
+  const listaElementos = document.getElementsByClassName('items')[0];
+  const retornoElementos = await fetchProducts('computador');
+  retornoElementos.results
+    .forEach((element) => listaElementos.appendChild(createProductItemElement(element)));
+  requisito3();
+};
+
+window.onload = () => { 
+  requisito2();
+};
