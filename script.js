@@ -75,6 +75,15 @@ const listaCarrinhoPreco = document.getElementById('price-total');
 const totalPreco = listaCarrinhoPreco.innerText;
 let totalPrecoNumber = parseFloat(totalPreco);
 const carrinhoComprasEspaço = document.getElementsByTagName('ol')[0];
+const botaoRemoveCarrinho = document.getElementsByClassName('empty-cart')[0];
+
+botaoRemoveCarrinho.addEventListener('click', () => {
+  const produtosCarrinho = carrinhoComprasEspaço.getElementsByTagName('li');
+  for (let index2 = produtosCarrinho.length - 1; index2 >= 0; index2 -= 1) {
+    carrinhoComprasEspaço.removeChild(produtosCarrinho[index2]);
+  }
+  listaCarrinhoPreco.innerText = 0;
+});
 
 carrinhoComprasEspaço.addEventListener('click', (event) => {
   const elemento = event.target;
