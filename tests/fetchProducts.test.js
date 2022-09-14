@@ -14,7 +14,7 @@ describe('1 - Teste a função fetchProducts', () => {
   it('Testa se ao passar o argumento computador utiliza o endpoint correto', async () => {
     expect.assertions(1);
     const url = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-    await fetchProducts('computador')
+    await fetchProducts('computador');
     expect(fetch).toHaveBeenCalledWith(url);
   })
   it('Testa se ao passar o argumento computador o retorno é o objeto computadorSearch', async () => {
@@ -29,6 +29,5 @@ describe('1 - Teste a função fetchProducts', () => {
     } catch (error) {
       expect(error).toEqual(new Error('You must provide an url'));
     }
-    
   })
 });
