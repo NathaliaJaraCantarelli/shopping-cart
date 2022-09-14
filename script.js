@@ -71,12 +71,20 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
+const carrinhoComprasEspaço = document.getElementsByTagName('ol')[0];
+carrinhoComprasEspaço.addEventListener('click', (event) => {
+  const elemento = event.target;
+  if (event.target.tagName === 'LI') {
+    elemento.remove();
+  }
+});
+
 const criaElementoCarrinho = async (idSelecionado, listaCarrinho) => {
   const objetoRetorno = await fetchItem(idSelecionado);
   listaCarrinho.appendChild(createCartItemElement(objetoRetorno));
 };
 
-const requisito3 = () => {
+const requisito4 = () => {
   const element = document.getElementsByClassName('item__add');
   const listaCarrinho = document.getElementsByClassName('cart__items')[0];
   for (let index = 0; index < element.length; index += 1) {
@@ -93,9 +101,9 @@ const requisito2 = async () => {
   const retornoElementos = await fetchProducts('computador');
   retornoElementos.results
     .forEach((element) => listaElementos.appendChild(createProductItemElement(element)));
-  requisito3();
+  requisito4();
 };
 
-window.onload = () => { 
+window.onload = () => {
   requisito2();
 };
