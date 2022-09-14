@@ -118,8 +118,10 @@ const requisito4 = () => {
 };
 
 const requisito2 = async () => {
+  const carregando = document.getElementsByClassName('loading')[0];
   const listaElementos = document.getElementsByClassName('items')[0];
   const retornoElementos = await fetchProducts('computador');
+  carregando.remove();
   retornoElementos.results
     .forEach((element) => listaElementos.appendChild(createProductItemElement(element)));
   requisito4();
