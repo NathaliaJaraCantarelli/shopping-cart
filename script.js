@@ -71,9 +71,11 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
+// getSavedCartItems();
 const listaCarrinhoPreco = document.getElementById('price-total');
 const totalPreco = listaCarrinhoPreco.innerText;
 let totalPrecoNumber = parseFloat(totalPreco);
+console.log("aqui: ", totalPrecoNumber);
 const carrinhoComprasEspaço = document.getElementsByTagName('ol')[0];
 const botaoRemoveCarrinho = document.getElementsByClassName('empty-cart')[0];
 
@@ -83,11 +85,19 @@ botaoRemoveCarrinho.addEventListener('click', () => {
     carrinhoComprasEspaço.removeChild(produtosCarrinho[index2]);
   }
   listaCarrinhoPreco.innerText = 0;
+  localStorage.setItem('cartItems','');
 });
 
 carrinhoComprasEspaço.addEventListener('click', (event) => {
   const elemento = event.target;
   if (event.target.tagName === 'LI') {
+    const arrayAnterior = localStorage.getItem('cartItems');
+    const novoArray = arrayAnterior.replace(elemento.innerText, '');
+    console.log(novoArray);
+    localStorage.setItem('cartItems', novoArray);
+    const listaCarrinhoPreco = document.getElementById('price-total');
+    const totalPreco = listaCarrinhoPreco.innerText;
+    let totalPrecoNumber = parseFloat(totalPreco);
     const frase = elemento.innerText;
     const posicao = frase.substring(frase.indexOf('PRICE') + 8, frase.length);
     const valor = parseFloat(posicao);
@@ -98,11 +108,16 @@ carrinhoComprasEspaço.addEventListener('click', (event) => {
 });
 
 const criaElementoCarrinho = async (idSelecionado, listaCarrinho) => {
+  const listaLocalStorage = localStorage.getItem('cartItems');
   const objetoRetorno = await fetchItem(idSelecionado);
-  listaCarrinho.appendChild(createCartItemElement(objetoRetorno));
+  const descricaoProduto = listaCarrinho.appendChild(createCartItemElement(objetoRetorno));
   const novoPreco = parseFloat(objetoRetorno.price);
+  const listaCarrinhoPreco = document.getElementById('price-total');
+  const totalPreco = listaCarrinhoPreco.innerText;
+  let totalPrecoNumber = parseFloat(totalPreco);
   totalPrecoNumber += novoPreco;
   listaCarrinhoPreco.innerText = totalPrecoNumber; // .toLocaleString('pt-BR', { style: 'currency', currency: 'USD' });
+  await saveCartItems(descricaoProduto.innerText, listaLocalStorage);
 };
 
 const requisito4 = () => {
@@ -127,9 +142,33 @@ const requisito2 = async () => {
   requisito4();
 };
 
+const seHaverConteudo = (conteudoLocalStorage) => {
+  const carrinhoCarregado = document.getElementsByClassName('cart__items')[0];
+    const listaCarrinhoPreco = document.getElementById('price-total');
+    let totalPrecoNumber = 0;
+    const id = 'ID: ';
+    const array = conteudoLocalStorage.split('ID: ');
+    array.forEach((element) => {
+      if (element !== '') {
+        const novoLi = document.createElement('li');
+        const criaCarrinho = carrinhoCarregado.appendChild(novoLi);
+        criaCarrinho.innerText = id.concat(element);
+        const posicao = element.substring(element.indexOf('PRICE') + 8, element.length);
+        const valor = parseFloat(posicao);
+        totalPrecoNumber += valor;
+        listaCarrinhoPreco.innerText = totalPrecoNumber;
+      }
+    });
+}
+
 window.onload = () => {
   requisito2();
   const valorInicial = 0;
-  listaCarrinhoPreco.innerText = valorInicial
-    .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  listaCarrinhoPreco.innerText = valorInicial;
+    // .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const conteudo = getSavedCartItems();
+  console.log(conteudo);
+  if (conteudo !== null) {
+    seHaverConteudo(conteudo);
+  }
 };

@@ -4,15 +4,20 @@ const saveCartItems = require('../helpers/saveCartItems');
 localStorageSimulator('setItem');
 
 describe('3 - Teste a função saveCartItems', () => {
-  it('testa se ao executar saveCartItems com um cartItem o localStorae.setItem é chamado', async () => {
+  it('testa se ao executar saveCartItems com um cartItem o localStorae.setItem é chamado', () => {
     expect.assertions(1);
-    await saveCartItems('cartItem');
+    saveCartItems('', '');
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
   })
-  it('testa se ao executar saveCartItems com um cartItem o localStorae.setItem é chamado com os parametros', async () => {
-    expect.assertions(2);
-    await saveCartItems('cartItem');
-    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems',);
-    expect(localStorage.setItem).toHaveBeenCalledWith('cartItem');
+  it('testa se ao executar saveCartItems com um cartItem o localStorae.setItem é chamado com os parametros', () => {
+    expect.assertions(1);
+    saveCartItems('ID: MLB1784298510 | TITLE: Monitor Gamer Samsung Ls22f350fh Led 21.5  Preto 100v/240v | PRICE: $799', '');
+    const id = ('ID: MLB1784298510 | TITLE: Monitor Gamer Samsung Ls22f350fh Led 21.5  Preto 100v/240v | PRICE: $799');
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', id);
+  })
+  it('testa se o conteudo não é vazio', () => {
+    expect.assertions(1);
+    const id = ('ID: MLB1784298510 | TITLE: Monitor Gamer Samsung Ls22f350fh Led 21.5  Preto 100v/240v | PRICE: $799');
+    expect(saveCartItems(id, null)).toBe('ID: MLB1784298510 | TITLE: Monitor Gamer Samsung Ls22f350fh Led 21.5  Preto 100v/240v | PRICE: $799');
   })
 });
