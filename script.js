@@ -71,11 +71,9 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
-// getSavedCartItems();
 const listaCarrinhoPreco = document.getElementById('price-total');
-const totalPreco = listaCarrinhoPreco.innerText;
+let totalPreco = listaCarrinhoPreco.innerText;
 let totalPrecoNumber = parseFloat(totalPreco);
-console.log("aqui: ", totalPrecoNumber);
 const carrinhoComprasEspaço = document.getElementsByTagName('ol')[0];
 const botaoRemoveCarrinho = document.getElementsByClassName('empty-cart')[0];
 
@@ -85,7 +83,7 @@ botaoRemoveCarrinho.addEventListener('click', () => {
     carrinhoComprasEspaço.removeChild(produtosCarrinho[index2]);
   }
   listaCarrinhoPreco.innerText = 0;
-  localStorage.setItem('cartItems','');
+  localStorage.setItem('cartItems', '');
 });
 
 carrinhoComprasEspaço.addEventListener('click', (event) => {
@@ -95,9 +93,9 @@ carrinhoComprasEspaço.addEventListener('click', (event) => {
     const novoArray = arrayAnterior.replace(elemento.innerText, '');
     console.log(novoArray);
     localStorage.setItem('cartItems', novoArray);
-    const listaCarrinhoPreco = document.getElementById('price-total');
-    const totalPreco = listaCarrinhoPreco.innerText;
-    let totalPrecoNumber = parseFloat(totalPreco);
+    // listaCarrinhoPreco = document.getElementById('price-total');
+    totalPreco = listaCarrinhoPreco.innerText;
+    totalPrecoNumber = parseFloat(totalPreco);
     const frase = elemento.innerText;
     const posicao = frase.substring(frase.indexOf('PRICE') + 8, frase.length);
     const valor = parseFloat(posicao);
@@ -112,9 +110,9 @@ const criaElementoCarrinho = async (idSelecionado, listaCarrinho) => {
   const objetoRetorno = await fetchItem(idSelecionado);
   const descricaoProduto = listaCarrinho.appendChild(createCartItemElement(objetoRetorno));
   const novoPreco = parseFloat(objetoRetorno.price);
-  const listaCarrinhoPreco = document.getElementById('price-total');
-  const totalPreco = listaCarrinhoPreco.innerText;
-  let totalPrecoNumber = parseFloat(totalPreco);
+  // listaCarrinhoPreco = document.getElementById('price-total');
+  totalPreco = listaCarrinhoPreco.innerText;
+  totalPrecoNumber = parseFloat(totalPreco);
   totalPrecoNumber += novoPreco;
   listaCarrinhoPreco.innerText = totalPrecoNumber; // .toLocaleString('pt-BR', { style: 'currency', currency: 'USD' });
   await saveCartItems(descricaoProduto.innerText, listaLocalStorage);
@@ -144,8 +142,8 @@ const requisito2 = async () => {
 
 const seHaverConteudo = (conteudoLocalStorage) => {
   const carrinhoCarregado = document.getElementsByClassName('cart__items')[0];
-    const listaCarrinhoPreco = document.getElementById('price-total');
-    let totalPrecoNumber = 0;
+    // listaCarrinhoPreco3 = document.getElementById('price-total');
+    totalPrecoNumber = 0;
     const id = 'ID: ';
     const array = conteudoLocalStorage.split('ID: ');
     array.forEach((element) => {
@@ -159,7 +157,7 @@ const seHaverConteudo = (conteudoLocalStorage) => {
         listaCarrinhoPreco.innerText = totalPrecoNumber;
       }
     });
-}
+};
 
 window.onload = () => {
   requisito2();
